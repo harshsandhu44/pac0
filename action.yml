@@ -1,0 +1,58 @@
+name: 'pac0 – Pac-Man Contribution Animation'
+description: "Generates an animated Pac-Man SVG from a GitHub user's contribution graph"
+author: 'harsh-sandhu'
+
+branding:
+  icon: 'activity'
+  color: 'yellow'
+
+inputs:
+  github_user_name:
+    description: 'GitHub username to generate the animation for'
+    required: true
+  outputs:
+    description: 'Output file path(s), one per line, relative to the repository root'
+    required: false
+    default: 'dist/galaxy.svg'
+  github_token:
+    description: 'GitHub token for fetching contribution data'
+    required: false
+    default: ${{ github.token }}
+  year:
+    description: 'Calendar year to generate animation for (defaults to current year)'
+    required: false
+    default: ''
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Bun
+      uses: oven-sh/setup-bun@v2
+      with:
+        bun-version: latest
+
+    - name: Install dependencies
+      shell: bash
+      working-directory: ${{ github.action_path }}
+      run: bun install
+
+    - name: Generate SVG(s)
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.github_token }}
+        ACTION_PATH: ${{ github.action_path }}
+        WORKSPACE: ${{ github.workspace }}
+        INPUT_USERNAME: ${{ inputs.github_user_name }}
+        INPUT_OUTPUTS: ${{ inputs.outputs }}
+        INPUT_YEAR: ${{ inputs.year }}
+      run: |
+        set -euo pipefail
+        while IFS= read -r output_path; do
+          [[ -z "${output_path// }" ]] && continue
+          abs_output="${WORKSPACE}/${output_path}"
+          mkdir -p "$(dirname "$abs_output")"
+          args=("--username" "$INPUT_USERNAME" "--output" "$abs_output")
+          [[ -n "$INPUT_YEAR" ]] && args+=("--year" "$INPUT_YEAR")
+          echo "Generating: $abs_output"
+          bun run "${ACTION_PATH}/scripts/generate.ts" "${args[@]}"
+        done <<< "$INPUT_OUTPUTS"

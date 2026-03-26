@@ -16,19 +16,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
-
-      - name: Install dependencies
-        run: bun install
-
       - name: Generate galaxy SVG
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_USERNAME: ${{ github.repository_owner }}
-        run: bun run generate -- --username "$GH_USERNAME" --output dist/galaxy.svg
+        uses: ./
+        with:
+          github_user_name: ${{ github.repository_owner }}
+          outputs: dist/galaxy.svg
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Commit and push if SVG changed
         run: |

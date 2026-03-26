@@ -16,9 +16,9 @@ export const defaultTheme: Theme = {
     width: 900,
     height: 200,
     cellSize: 12,
-    cellStep: 16,   // 12px cell + 4px gap; 53 cols × 16 = 848px + 8px offset = 856px
+    cellStep: 16, // 12px cell + 4px gap; 53 cols × 16 = 848px + 8px offset = 856px
     chomperRadius: 7,
     gridOffsetX: 8,
-    gridOffsetY: 40,  // room for title above grid; 7 rows × 16 = 112px → grid ends at y=152
+    gridOffsetY: 40, // room for title above grid; 7 rows × 16 = 112px → grid ends at y=152
   },
 }

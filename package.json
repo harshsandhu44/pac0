@@ -4,10 +4,15 @@
   "type": "module",
   "scripts": {
     "generate": "bun run scripts/generate.ts",
-    "dev": "bun run --watch scripts/generate.ts"
+    "mock": "bun run scripts/mock.ts",
+    "test": "bun test",
+    "format": "bunx prettier --write .",
+    "format:check": "bunx prettier --check .",
+    "preview": "open preview.html"
   },
   "devDependencies": {
     "typescript": "^5.4.0",
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "prettier": "^3.0.0"
   }
 }

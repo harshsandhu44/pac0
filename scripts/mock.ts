@@ -22,17 +22,21 @@ function mockWeeks(count: number): RawContributionWeek[] {
 }
 
 const rawWeeks = mockWeeks(53)
-const grid = normalizeWeeks(rawWeeks, 'testuser', 2025)
+const grid = normalizeWeeks(rawWeeks, 'testuser')
 const pelletGrid = buildPellets(grid, defaultTheme)
 const timeline = buildTimeline(pelletGrid)
 const svg = renderSVG(grid, pelletGrid, timeline, defaultTheme)
 
-const powerCount = pelletGrid.cells.filter(c => c.pelletType === 'power').length
-const noneCount  = pelletGrid.cells.filter(c => c.pelletType === 'none').length
-console.log(`Pellets: ${powerCount} power, ${noneCount} empty, ${pelletGrid.cells.length - powerCount - noneCount} normal, ${pelletGrid.path.length} in path`)
-console.log(`Timeline: ${timeline.totalDuration.toFixed(2)}s, path length: ${timeline.pathD.length} chars`)
+const powerCount = pelletGrid.cells.filter((c) => c.pelletType === 'power').length
+const noneCount = pelletGrid.cells.filter((c) => c.pelletType === 'none').length
+console.log(
+  `Pellets: ${powerCount} power, ${noneCount} empty, ${pelletGrid.cells.length - powerCount - noneCount} normal, ${pelletGrid.path.length} in path`
+)
+console.log(
+  `Timeline: ${timeline.totalDuration.toFixed(2)}s, path length: ${timeline.pathD.length} chars`
+)
 console.log(`SVG size: ${svg.length} bytes`)
 
-await Bun.write('dist/test-render.svg', svg)
-await Bun.write('dist/galaxy.svg', svg)
-console.log('Written to dist/test-render.svg and dist/galaxy.svg')
+await Bun.write('dist/mock.svg', svg)
+await Bun.write('dist/pac0.svg', svg)
+console.log('Written to dist/mock.svg and dist/pac0.svg')

@@ -1,19 +1,35 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <title>pac0 preview</title>
-  <style>
-    body { background: #0d1117; margin: 0; padding: 40px; font-family: monospace; color: #e6edf3; }
-    h1 { margin: 0 0 20px; font-size: 14px; opacity: 0.5; }
-    img { display: block; width: 100%; max-width: 900px; border: 1px solid #2d333b; border-radius: 6px; }
-  </style>
-</head>
-<body>
-  <h1>pac0 — local preview</h1>
-  <img src="./dist/galaxy.svg" alt="Galaxy animation">
-  <p style="margin-top: 12px; font-size: 12px; opacity: 0.4">
-    Run: GITHUB_TOKEN=... bun run generate -- --username YOUR_USERNAME
-  </p>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <title>pac0 preview</title>
+    <style>
+      body {
+        background: #0d1117;
+        margin: 0;
+        padding: 40px;
+        font-family: monospace;
+        color: #e6edf3;
+      }
+      h1 {
+        margin: 0 0 20px;
+        font-size: 14px;
+        opacity: 0.5;
+      }
+      img {
+        display: block;
+        width: 100%;
+        max-width: 900px;
+        border: 1px solid #2d333b;
+        border-radius: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>pac0 — local preview</h1>
+    <img src="./dist/pac0.svg" alt="pac0 animation" />
+    <p style="margin-top: 12px; font-size: 12px; opacity: 0.4">
+      Run: bun run mock — or — GITHUB_TOKEN=... bun run generate -- --username YOUR_USERNAME
+    </p>
+  </body>
 </html>

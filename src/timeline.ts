@@ -3,8 +3,8 @@ import type { PelletGrid, AnimationTimeline } from "./types.js";
 // Constant pixel speed: time allocated proportional to distance traveled.
 // Both keyPoints and keyTimes track cumulative distance so speed is uniform.
 const PIXELS_PER_SECOND = 55;
-const MIN_DURATION = 20;
-const MAX_DURATION = 60;
+const MIN_DURATION = 50;
+const MAX_DURATION = 120;
 
 export function buildTimeline(pelletGrid: PelletGrid): AnimationTimeline {
   const path = pelletGrid.path;

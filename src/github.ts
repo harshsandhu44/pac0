@@ -53,7 +53,7 @@ export async function fetchContributions(opts: FetchOptions): Promise<RawContrib
       'Authorization': `Bearer ${opts.token}`,
       'Content-Type': 'application/json',
       // GitHub API requires a User-Agent header
-      'User-Agent': 'astr0naut/1.0',
+      'User-Agent': 'pac0/1.0',
     },
     body: JSON.stringify({
       query: QUERY,

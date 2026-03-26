@@ -1,4 +1,4 @@
-# astr0naut
+# pac0
 
 An animated SVG generator that transforms your GitHub contribution graph into a Pac-Man-inspired arcade animation — a chomper character traverses the contribution grid, eating pellets that represent your coding activity.
 
@@ -25,8 +25,8 @@ An animated SVG generator that transforms your GitHub contribution graph into a 
 
 ```bash
 # Clone and install
-git clone https://github.com/YOUR_USERNAME/astr0naut
-cd astr0naut
+git clone https://github.com/YOUR_USERNAME/pac0
+cd pac0
 bun install
 ```
 
@@ -80,7 +80,7 @@ open preview.html
 ## Embed in your GitHub profile README
 
 ```markdown
-![My Contributions](https://raw.githubusercontent.com/YOUR_USERNAME/astr0naut/main/dist/galaxy.svg)
+![My Contributions](https://raw.githubusercontent.com/YOUR_USERNAME/pac0/main/dist/galaxy.svg)
 ```
 
 Or using a relative path if this lives in your profile repo:

@@ -78,6 +78,55 @@ function renderPellets(pelletGrid: PelletGrid, timeline: AnimationTimeline, them
   return parts.join('\n  ')
 }
 
+// Renders an animated score counter that increments as each pellet is eaten.
+// Each score value is a separate <text> element visible only during its time window.
+function renderScore(pelletGrid: PelletGrid, timeline: AnimationTimeline, theme: Theme): string {
+  const { width } = theme.sizes
+  const { pelletPower } = theme.colors
+  const total = timeline.totalDuration
+  const dur = total.toFixed(2)
+  const fmt = (n: number) => (n / total).toFixed(4)
+
+  // Build (score, startTime, endTime) segments — one per pellet eaten
+  const segments: Array<{ score: number; start: number; end: number }> = [
+    { score: 0, start: 0, end: total },
+  ]
+
+  let score = 0
+  for (const cell of pelletGrid.path) {
+    if (cell.pelletType === 'none') continue
+    score += cell.count
+    const t = timeline.cellTimings[cell.pathIndex] ?? 0
+    // Close previous segment at this moment
+    segments[segments.length - 1]!.end = t
+    segments.push({ score, start: t, end: total })
+  }
+
+  const attrs = `x="${width - 10}" y="28" fill="${pelletPower}" font-family="monospace" font-size="11" text-anchor="end"`
+
+  return segments
+    .map(({ score: s, start, end }) => {
+      const label = s.toLocaleString('en-US') + ' pts'
+      if (start === 0) {
+        // Visible from 0 until end, then hidden
+        const endRatio = fmt(end)
+        return (
+          `<text ${attrs}>${label}` +
+          `<animate attributeName="opacity" values="1;0" keyTimes="0;${endRatio}" calcMode="discrete" dur="${dur}s" repeatCount="indefinite"/>` +
+          `</text>`
+        )
+      }
+      const startRatio = fmt(start)
+      const endRatio = fmt(end)
+      return (
+        `<text ${attrs}>${label}` +
+        `<animate attributeName="opacity" values="0;1;0" keyTimes="0;${startRatio};${endRatio}" calcMode="discrete" dur="${dur}s" repeatCount="indefinite"/>` +
+        `</text>`
+      )
+    })
+    .join('\n  ')
+}
+
 function renderChomper(theme: Theme, timeline: AnimationTimeline): string {
   const r = theme.sizes.chomperRadius
   const fill = theme.colors.chomperFill
@@ -126,13 +175,12 @@ export function renderSVG(
   theme: Theme
 ): string {
   const { width, height } = theme.sizes
-  const { bg, pelletPower } = theme.colors
+  const { bg } = theme.colors
 
   const gridBg = renderGridBackground(pelletGrid, theme)
   const pellets = renderPellets(pelletGrid, timeline, theme)
+  const score = renderScore(pelletGrid, timeline, theme)
   const chomper = renderChomper(theme, timeline)
-
-  const year = new Date().getFullYear()
 
   return `<svg xmlns="http://www.w3.org/2000/svg"
   viewBox="0 0 ${width} ${height}"
@@ -146,7 +194,7 @@ export function renderSVG(
   <rect width="${width}" height="${height}" fill="${bg}"/>
 
   <text x="10" y="28" fill="#8b949e" font-family="monospace" font-size="13" font-weight="bold">@${grid.username}</text>
-  <text x="${width - 10}" y="28" fill="${pelletPower}" font-family="monospace" font-size="11" text-anchor="end">${year}</text>
+  ${score}
 
   ${gridBg}
 

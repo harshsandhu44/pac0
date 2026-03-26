@@ -2,7 +2,7 @@
 
 An animated SVG generator that transforms your GitHub contribution graph into a Pac-Man-inspired arcade animation — a chomper character traverses the contribution grid, eating pellets that represent your coding activity.
 
-![Galaxy](https://raw.githubusercontent.com/harshsandhu44/pac0/output/galaxy.svg)
+![Galaxy](https://raw.githubusercontent.com/harshsandhu44/pac0/tree/output/galaxy.svg)
 
 ---
 
@@ -155,7 +155,7 @@ No additional secrets needed — the workflow uses the built-in `GITHUB_TOKEN`.
 ## Embed in your GitHub profile README
 
 ```markdown
-![My Contributions](https://raw.githubusercontent.com/harshsandhu44/pac0/output/galaxy.svg)
+![My Contributions](https://raw.githubusercontent.com/harshsandhu44/pac0/tree/output/galaxy.svg)
 ```
 
 ---

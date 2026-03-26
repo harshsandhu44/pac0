@@ -2,7 +2,7 @@
 
 An animated SVG generator that transforms your GitHub contribution graph into a Pac-Man-inspired arcade animation — a chomper character traverses the contribution grid, eating pellets that represent your coding activity.
 
-![pac0](https://raw.githubusercontent.com/harshsandhu44/pac0/output/pac0.svg)
+![pac0](https://raw.githubusercontent.com/harshsandhu44/pac0/refs/heads/output/pac0.svg)
 
 ---
 
@@ -129,7 +129,7 @@ jobs:
 Then embed in your profile README:
 
 ```markdown
-![My Contributions](https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/output/pac0.svg)
+![My Contributions](https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/refs/heads/output/pac0.svg)
 ```
 
 ### Action inputs
@@ -159,7 +159,7 @@ No additional secrets needed — the workflow uses the built-in `GITHUB_TOKEN`.
 ## Embed in your GitHub profile README
 
 ```markdown
-![My Contributions](https://raw.githubusercontent.com/harshsandhu44/pac0/output/pac0.svg)
+![My Contributions](https://raw.githubusercontent.com/harshsandhu44/pac0/refs/heads/output/pac0.svg)
 ```
 
 ---

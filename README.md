@@ -2,7 +2,7 @@
 
 An animated SVG generator that transforms your GitHub contribution graph into a Pac-Man-inspired arcade animation — a chomper character traverses the contribution grid, eating pellets that represent your coding activity.
 
-![Galaxy](./dist/galaxy.svg)
+![Galaxy](https://raw.githubusercontent.com/harshsandhu44/pac0/output/galaxy.svg)
 
 ---
 
@@ -77,30 +77,86 @@ open preview.html
 
 ---
 
-## Embed in your GitHub profile README
+## Use as a GitHub Action
 
-```markdown
-![My Contributions](https://raw.githubusercontent.com/YOUR_USERNAME/pac0/main/dist/galaxy.svg)
+Add pac0 to any repo's workflow to auto-generate and publish your animation:
+
+```yaml
+name: Generate pac0 SVG
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: harshsandhu44/pac0@main
+        with:
+          github_user_name: ${{ github.repository_owner }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          outputs: galaxy.svg
+
+      - name: Push to output branch
+        run: |
+          cp galaxy.svg /tmp/galaxy.svg
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git fetch origin
+          if git show-ref --verify --quiet refs/remotes/origin/output; then
+            git checkout -b output origin/output
+          else
+            git checkout --orphan output
+            git rm -rf . --quiet
+          fi
+          cp /tmp/galaxy.svg galaxy.svg
+          git add galaxy.svg
+          git diff --staged --quiet || git commit -m "chore: update galaxy.svg [skip ci]"
+          git push origin HEAD:output
 ```
 
-Or using a relative path if this lives in your profile repo:
+Then embed in your profile README:
 
 ```markdown
-![My Contributions](./dist/galaxy.svg)
+![My Contributions](https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/output/galaxy.svg)
 ```
+
+### Action inputs
+
+| Input | Required | Default | Description |
+|---|---|---|---|
+| `github_user_name` | Yes | — | GitHub username to generate the animation for |
+| `github_token` | No | `github.token` | Token for fetching contribution data |
+| `outputs` | No | `dist/galaxy.svg` | Output file path(s), one per line |
+| `year` | No | current year | Calendar year to generate for |
 
 ---
 
-## GitHub Action (auto-update)
+## Self-hosted setup (this repo)
 
-The included workflow (`.github/workflows/generate-galaxy.yml`) runs daily at midnight UTC and commits an updated SVG automatically.
+The included workflow (`.github/workflows/generate-galaxy.yml`) runs daily at midnight UTC and publishes the updated SVG to the `output` branch automatically.
 
 To enable it:
 1. Push this repo to GitHub
 2. Go to **Actions** → **Generate Galaxy SVG** → **Run workflow** (first manual run)
 3. After that it updates daily on the schedule
 
-No additional secrets are needed — the workflow uses the built-in `GITHUB_TOKEN`.
+No additional secrets needed — the workflow uses the built-in `GITHUB_TOKEN`.
+
+---
+
+## Embed in your GitHub profile README
+
+```markdown
+![My Contributions](https://raw.githubusercontent.com/harshsandhu44/pac0/output/galaxy.svg)
+```
 
 ---
 
@@ -123,5 +179,5 @@ scripts/
   test-render.ts  Local smoke test with mock data
 
 dist/
-  galaxy.svg      Generated output (committed by the Action)
+  galaxy.svg      Generated output (published to the output branch by the Action)
 ```

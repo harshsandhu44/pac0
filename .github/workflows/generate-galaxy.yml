@@ -25,15 +25,17 @@ jobs:
 
       - name: Push to output branch
         run: |
+          cp dist/galaxy.svg /tmp/galaxy.svg
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          if git ls-remote --exit-code origin output >/dev/null 2>&1; then
-            git worktree add /tmp/output output
+          git fetch origin
+          if git show-ref --verify --quiet refs/remotes/origin/output; then
+            git checkout -b output origin/output
           else
-            git worktree add --orphan -b output /tmp/output
+            git checkout --orphan output
+            git rm -rf . --quiet
           fi
-          cp dist/galaxy.svg /tmp/output/galaxy.svg
-          cd /tmp/output
+          cp /tmp/galaxy.svg galaxy.svg
           git add galaxy.svg
           git diff --staged --quiet || git commit -m "chore: update galaxy.svg [skip ci]"
-          git push origin output
+          git push origin HEAD:output

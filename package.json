@@ -1,0 +1,13 @@
+{
+  "name": "astr0naut",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "generate": "bun run scripts/generate.ts",
+    "dev": "bun run --watch scripts/generate.ts"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "@types/bun": "latest"
+  }
+}

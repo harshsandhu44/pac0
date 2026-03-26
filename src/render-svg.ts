@@ -2,9 +2,9 @@ import type { NormalizedGrid, PelletGrid, CellNode, AnimationTimeline, Theme } f
 
 function pelletRadius(type: CellNode['pelletType']): number {
   switch (type) {
-    case 'small':  return 2
-    case 'medium': return 3
-    case 'large':  return 4
+    case 'small':  return 3
+    case 'medium': return 4
+    case 'large':  return 5
     case 'power':  return 6
     default:       return 0
   }

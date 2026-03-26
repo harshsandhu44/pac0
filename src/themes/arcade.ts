@@ -6,7 +6,7 @@ export const defaultTheme: Theme = {
     gridEmpty: '#161b22',
     pelletSmall: '#39d353',
     pelletMedium: '#26a641',
-    pelletLarge: '#006d32',
+    pelletLarge: '#2ea043',
     pelletPower: '#FFD700',
     chomperFill: '#FFD700',
     chomperMouth: '#0d1117',

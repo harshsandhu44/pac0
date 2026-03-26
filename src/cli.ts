@@ -1,7 +1,6 @@
 export interface CLIArgs {
   username: string
   output: string
-  year: number
   token: string
 }
 
@@ -30,8 +29,7 @@ export function parseArgs(argv: string[]): CLIArgs {
 
   return {
     username,
-    output: args['output'] ?? 'dist/galaxy.svg',
-    year: parseInt(args['year'] ?? String(new Date().getFullYear()), 10),
+    output: args['output'] ?? 'dist/pac0.svg',
     token,
   }
 }

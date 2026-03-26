@@ -35,7 +35,6 @@ interface GraphQLResponse {
 export interface FetchOptions {
   username: string
   token: string
-  year?: number
 }
 
 export async function fetchContributions(opts: FetchOptions): Promise<RawContributionWeek[]> {
@@ -50,7 +49,7 @@ export async function fetchContributions(opts: FetchOptions): Promise<RawContrib
   const response = await fetch(GRAPHQL_URL, {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${opts.token}`,
+      Authorization: `Bearer ${opts.token}`,
       'Content-Type': 'application/json',
       // GitHub API requires a User-Agent header
       'User-Agent': 'pac0/1.0',
@@ -65,7 +64,7 @@ export async function fetchContributions(opts: FetchOptions): Promise<RawContrib
     throw new Error(`GitHub API returned HTTP ${response.status}: ${await response.text()}`)
   }
 
-  const json = await response.json() as GraphQLResponse
+  const json = (await response.json()) as GraphQLResponse
 
   // GraphQL errors come back as HTTP 200 with an errors field
   if (json.errors && json.errors.length > 0) {
